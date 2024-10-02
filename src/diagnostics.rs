@@ -3,9 +3,9 @@ use bevy::window::PrimaryWindow;
 
 use crate::camera::{CameraPlugin, DragState, screen_to_world, MainCamera};
 use crate::basics::ToWorldGrid;
-
-#[derive(Component)]
-struct FpsText;
+use crate::tera_grid::Grid;
+// #[derive(Component)]
+// struct FpsText;
 
 #[derive(Component)]
 struct PositionText;
@@ -51,26 +51,22 @@ fn setup_text(mut commands: Commands, asset_server: Res<AssetServer>) {
 
 
 fn update_position_text(
-    mut camera_query: Query<(&Camera, &mut Transform, &OrthographicProjection), With<MainCamera>>, 
+    mut camera_query: Query<(&Camera, &mut GlobalTransform), With<MainCamera>>, 
     windows: Query<&Window, With<PrimaryWindow>>,
     mut query: Query<&mut Text, With<PositionText>>,
     state: ResMut<DragState>,
+    grid: Res<Grid>,
 ){
     let window = windows.single();
-    let (_, camera_transform, orthographic_projection) = camera_query.single_mut();
+    let (camera, camera_transform) = camera_query.single_mut();
 
     if let Some(position) = window.cursor_position() {
-        if let Some(world_position) = screen_to_world(
-            window,
-            &camera_transform,
-            position,
-            orthographic_projection, // Pass this to the function
-        ) {
+        if let Some(world_pos) = screen_to_world(camera, &camera_transform, window) {
             for mut text in &mut query {
-                text.sections[0].value = format!("World : {} {}\n\
+                text.sections[0].value = format!("World : {:?} {}\n\
                                                   Window: {} {}\n\
                                                   Saved : {} {}",
-                    world_position.to_world_grid(), world_position.to_int_string(),
+                    grid.get_grid_coord(world_pos), world_pos.to_int_string(),
                     position.to_world_grid(), &position.to_int_string(),
                     &state.initial_camera_pos.to_world_grid(), &state.initial_camera_pos.to_int_string());
             }

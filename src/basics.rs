@@ -16,3 +16,19 @@ impl ToWorldGrid for Vec2 {
         format!("[{:.0}, {:.0}]", xy.x, xy.y)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn it_works() {
+        let v = Vec2 {x: 0., y: 0.};
+        assert_eq!(v.to_world_grid(), "[0, 0]");
+    }
+    #[test]
+    fn another_test() {
+        assert_eq!(1 + 1, 2);
+    }
+}
+
+
