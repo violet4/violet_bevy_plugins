@@ -37,15 +37,15 @@ impl Default for DragState {
 
 fn camera_drag_system(
     mut state: ResMut<DragState>,
-    mut camera_query: Query<(&Camera, &mut GlobalTransform), With<MainCamera>>, 
+    mut camera_query: Query<(&Camera, &GlobalTransform, &mut Transform), With<MainCamera>>, 
     mouse_button_input: Res<ButtonInput<MouseButton>>,
     windows: Query<&Window, With<PrimaryWindow>>,
 ) {
     let window = windows.single();
-    let (camera, mut transform) = camera_query.single_mut();
+    let (camera, transform, mut camera_transform) = camera_query.single_mut();
 
     if mouse_button_input.just_pressed(MouseButton::Left) {
-        if let Some(world_pos) = screen_to_world(&camera, &transform, &window) {
+        if let Some(world_pos) = screen_to_world(camera, transform, window) {
             state.initial_camera_pos = world_pos;
         }
         state.is_dragging = true;
@@ -54,10 +54,10 @@ fn camera_drag_system(
     }
 
     if state.is_dragging {
-        if let Some(world_pos) = screen_to_world(&camera, &transform, &window) {
+        if let Some(world_pos) = screen_to_world(camera, transform, window) {
                 let delta = world_pos - state.initial_camera_pos;
-                // transform.translation.x -= delta.x;
-                // transform.translation.y -= delta.y;
+                camera_transform.translation.x -= delta.x;
+                camera_transform.translation.y -= delta.y;
         }
     }
 }

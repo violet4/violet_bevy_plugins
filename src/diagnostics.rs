@@ -13,6 +13,13 @@ struct PositionText;
 pub struct DiagnosticsPlugin;
 
 const FONT_PATH: &str = "fonts/NotoSansMono-Regular.ttf";
+fn get_text_style(asset_server: &Res<AssetServer>) -> TextStyle {
+    TextStyle {
+        font: asset_server.load(FONT_PATH),
+        font_size: 16.0,
+        ..default()
+    }
+}
 
 impl Plugin for DiagnosticsPlugin {
     fn build(&self, app: &mut App) {
@@ -25,12 +32,7 @@ impl Plugin for DiagnosticsPlugin {
 fn setup_text(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn(
         TextBundle::from_section(
-            "",
-            TextStyle {
-                font: asset_server.load(FONT_PATH),
-                font_size: 100.0,
-                ..default()
-            },
+            "", get_text_style(&asset_server)
         )
     );
 
@@ -38,11 +40,7 @@ fn setup_text(mut commands: Commands, asset_server: Res<AssetServer>) {
         TextBundle::from_sections([
             TextSection::new(
                 "FPS: ",
-                TextStyle {
-                    font: asset_server.load(FONT_PATH),
-                    font_size: 60.0,
-                    ..default()
-                },
+                get_text_style(&asset_server),
             ),
         ]),
         PositionText,
