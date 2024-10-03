@@ -1,5 +1,4 @@
 use bevy::prelude::*;
-use bevy::render::camera::CameraProjection;
 use bevy::window::PrimaryWindow;
 
 pub struct CameraPlugin;
@@ -69,5 +68,5 @@ pub fn screen_to_world(
 ) -> Option<Vec2> {
     window
         .cursor_position()
-        .and_then(|cursor| camera.viewport_to_world_2d(&transform, cursor))
+        .and_then(|cursor| camera.viewport_to_world_2d(transform, cursor))
 }

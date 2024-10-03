@@ -12,7 +12,7 @@ impl Plugin for TeraGridPlugin {
 }
 
 fn setup_grid(mut commands: Commands) {
-    commands.insert_resource(Grid::new(10, 5, 32));
+    commands.insert_resource(Grid::new(10, 5, 64));
 }
 
 fn create_grid(
@@ -25,7 +25,7 @@ fn create_grid(
 pub struct Grid {
     grid_width: u32,
     grid_height: u32,
-    tile_size: u32,
+    pub tile_size: u32,
 }
 
 impl Grid {
@@ -46,7 +46,7 @@ impl Grid {
         let h_segment = Segment2d::new(Dir2::X, ((self.grid_width - 1) * self.tile_size) as f32);
         let v_segment = Segment2d::new(Dir2::Y, ((self.grid_height - 1) * self.tile_size) as f32);
 
-        let red = Color::srgb_u8(255, 0, 0);
+        let red = Color::srgb_u8(50, 0, 0);
 
         for x in 0..self.grid_width {
             for y in 0..self.grid_height  {

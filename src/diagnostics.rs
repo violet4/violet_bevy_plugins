@@ -10,7 +10,6 @@ use crate::tera_grid::Grid;
 #[derive(Component)]
 struct PositionText;
 
-pub struct DiagnosticsPlugin;
 
 const FONT_PATH: &str = "fonts/NotoSansMono-Regular.ttf";
 fn get_text_style(asset_server: &Res<AssetServer>) -> TextStyle {
@@ -20,6 +19,8 @@ fn get_text_style(asset_server: &Res<AssetServer>) -> TextStyle {
         ..default()
     }
 }
+
+pub struct DiagnosticsPlugin;
 
 impl Plugin for DiagnosticsPlugin {
     fn build(&self, app: &mut App) {
