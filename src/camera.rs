@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy::render::camera::ScalingMode;
 use bevy::window::PrimaryWindow;
 
 pub struct CameraPlugin;
@@ -12,10 +13,17 @@ impl Plugin for CameraPlugin {
     }
 }
 
-fn setup_camera(mut commands: Commands) {
-    commands.spawn((Camera2dBundle::default(),));
+pub fn setup_camera(mut commands: Commands) {
+    let mut camera = Camera2dBundle::default();
+    camera.projection.scaling_mode = ScalingMode::WindowSize(1.0);
+    commands.spawn((
+        camera,
+        MainCamera,
+    ));
 }
 
+#[derive(Component)]
+pub struct MainCamera;
 
 #[derive(Resource)]
 pub struct DragState {
@@ -34,7 +42,7 @@ impl Default for DragState {
 
 fn camera_drag_system(
     mut state: ResMut<DragState>,
-    mut camera_query: Query<(&Camera, &GlobalTransform, &mut Transform)>, 
+    mut camera_query: Query<(&Camera, &GlobalTransform, &mut Transform), With<MainCamera>>, 
     mouse_button_input: Res<ButtonInput<MouseButton>>,
     windows: Query<&Window, With<PrimaryWindow>>,
 ) {

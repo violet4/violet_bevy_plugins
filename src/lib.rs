@@ -5,6 +5,8 @@ pub mod camera;
 pub mod basics;
 pub mod tera_grid;
 pub mod terrain;
+pub mod zoom;
+pub mod player_input;
 
 #[cfg(test)]
 mod tests {
