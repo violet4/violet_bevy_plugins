@@ -52,21 +52,25 @@ impl Grid {
             for y in 0..self.grid_height  {
                 gizmos.primitive_2d(
                     &v_segment,
-                    Vec2::new(
-                        (x * self.tile_size) as f32,
-                        v_segment.half_length,
+                    Isometry2d::new(
+                        Vec2::new(
+                            (x * self.tile_size) as f32,
+                            v_segment.half_length,
+                        ),
+                        (0.).into(),
                     ),
-                    0.,
                     red,
                 );
 
                 gizmos.primitive_2d(
                     &h_segment,
-                    Vec2::new(
-                        h_segment.half_length,
-                        (y * self.tile_size) as f32,
+                    Isometry2d::new(
+                        Vec2::new(
+                            h_segment.half_length,
+                            (y * self.tile_size) as f32,
+                        ),
+                        (0.).into(),
                     ),
-                    0.,
                     red,
                 );
             }

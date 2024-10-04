@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy::render::camera::ViewportConversionError;
 use bevy::window::PrimaryWindow;
 
 pub struct CameraPlugin;
@@ -66,7 +67,10 @@ pub fn screen_to_world(
     transform: &GlobalTransform,
     window: &Window,
 ) -> Option<Vec2> {
-    window
-        .cursor_position()
-        .and_then(|cursor| camera.viewport_to_world_2d(transform, cursor))
+    let cursor = window.cursor_position()?;
+
+    match camera.viewport_to_world_2d(transform, cursor) {
+        Ok(v) => Some(v),
+        Err(_) => None,
+    }
 }

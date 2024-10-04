@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bevy = { version = "0.14.2", path = "../../../../other/games/bevy/bevy" }
+bevy = { version = "0.15.0-dev", path = "../../../../other/games/bevy/bevy" }
 
 [lib]
 path = "src/lib.rs"
