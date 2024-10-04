@@ -13,11 +13,9 @@ impl Plugin for CameraPlugin {
 }
 
 fn setup_camera(mut commands: Commands) {
-    commands.spawn((Camera2dBundle::default(), MainCamera));
+    commands.spawn((Camera2dBundle::default(),));
 }
 
-#[derive(Component)]
-pub struct MainCamera;
 
 #[derive(Resource)]
 pub struct DragState {
@@ -36,7 +34,7 @@ impl Default for DragState {
 
 fn camera_drag_system(
     mut state: ResMut<DragState>,
-    mut camera_query: Query<(&Camera, &GlobalTransform, &mut Transform), With<MainCamera>>, 
+    mut camera_query: Query<(&Camera, &GlobalTransform, &mut Transform)>, 
     mouse_button_input: Res<ButtonInput<MouseButton>>,
     windows: Query<&Window, With<PrimaryWindow>>,
 ) {

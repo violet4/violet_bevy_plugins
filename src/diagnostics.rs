@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 
-use crate::camera::{CameraPlugin, DragState, screen_to_world, MainCamera};
+use crate::camera::{CameraPlugin, DragState, screen_to_world};
 use crate::basics::ToWorldGrid;
 use crate::tera_grid::Grid;
 // #[derive(Component)]
@@ -50,7 +50,7 @@ fn setup_text(mut commands: Commands, asset_server: Res<AssetServer>) {
 
 
 fn update_position_text(
-    mut camera_query: Query<(&Camera, &mut GlobalTransform), With<MainCamera>>, 
+    mut camera_query: Query<(&Camera, &mut GlobalTransform)>, 
     windows: Query<&Window, With<PrimaryWindow>>,
     mut query: Query<&mut Text, With<PositionText>>,
     state: ResMut<DragState>,
