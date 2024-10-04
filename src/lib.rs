@@ -4,6 +4,7 @@ pub mod diagnostics;
 pub mod camera;
 pub mod basics;
 pub mod tera_grid;
+pub mod terrain;
 
 #[cfg(test)]
 mod tests {

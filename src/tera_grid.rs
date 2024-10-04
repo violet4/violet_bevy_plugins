@@ -23,8 +23,8 @@ fn create_grid(
 }
 #[derive(Component, Resource)]
 pub struct Grid {
-    grid_width: u32,
-    grid_height: u32,
+    pub grid_width: u32,
+    pub grid_height: u32,
     pub tile_size: u32,
 }
 
