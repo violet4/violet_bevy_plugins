@@ -18,7 +18,7 @@ fn zoom_camera(
     mut player_input: ResMut<PlayerInput>,
 ) {
     let mut projection = match q_projection.get_single_mut() {
-        Ok(p) => dbg!(p),
+        Ok(p) => p,
         Err(_) => return,
     };
     player_input.zoom = player_input.zoom.clamp(0.1, 20.0);
