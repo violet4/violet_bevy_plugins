@@ -26,9 +26,9 @@ fn generate_terrain(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<ColorMaterial>>,
 ) {
-    let tile_size: u32 = grid.tile_size;
-    for x in 0..100+grid.grid_width {
-        for y in 0..100+grid.grid_height {
+    let tile_size: u32 = grid.tile_size();
+    for x in 0..10+grid.width() {
+        for y in 0..10+grid.height() {
             let noise_value = perlin.0.get([(x as f64 + EPSILON) / 10.0, (y as f64 + EPSILON) / 10.0, 0.0]);
             let color = map_noise_to_color(noise_value as f32);
 
