@@ -26,16 +26,16 @@ fn generate_terrain(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<ColorMaterial>>,
 ) {
-    let tile_size: u32 = grid.tile_size();
-    for x in 0..10+grid.width() {
-        for y in 0..10+grid.height() {
+    let tile_size: f32 = grid.tile_size_f32();
+    for x in 0..grid.width() {
+        for y in 0..grid.height() {
             let noise_value = perlin.0.get([(x as f64 + EPSILON) / 10.0, (y as f64 + EPSILON) / 10.0, 0.0]);
             let color = map_noise_to_color(noise_value as f32);
 
             commands.spawn((
-                Mesh2d(meshes.add(Rectangle::new(tile_size as f32, tile_size as f32))),
+                Mesh2d(meshes.add(Rectangle::new(tile_size, tile_size))),
                 MeshMaterial2d(materials.add(color)),
-                Transform::from_xyz((x as f32 + 0.5) * tile_size as f32, (y as f32 + 0.5) * tile_size as f32, -5.0),
+                Transform::from_xyz((x as f32 + 0.5) * tile_size, (y as f32 + 0.5) * tile_size, -5.0),
             ));
 
         }

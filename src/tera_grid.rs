@@ -18,9 +18,6 @@ fn setup(mut commands: Commands, mut asset_server: Res<AssetServer>) {
     commands.insert_resource(Grid::new(100, 100, 64, false));
 }
 
-// gcfn draw(grid: Res<Grid>, mut gizmos: Gizmos) {
-//     grid.draw(gizmos);
-// }
 
 #[derive(Component, Resource)]
 pub struct Grid {
@@ -86,32 +83,36 @@ impl Grid {
         self.show_border = !self.show_border;
     }
 
-    pub fn tile_size(&self) -> u32 {
-        self.tile_size
+    pub fn tile_size_i32(&self) -> i32 {
+        self.tile_size as i32
+    }
+    pub fn tile_size_f32(&self) -> f32 {
+        self.tile_size as f32
     }
 
-    pub fn width(&self) -> u32 {
-        self.width
-    }
+    pub fn width(&self) -> u32 {self.width}
+    pub fn width_i32(&self) -> i32 {self.width as i32}
+    pub fn width_f32(&self) -> f32 {self.width as f32}
 
-    pub fn height(&self) -> u32 {
-        self.height
-    }
+    pub fn height(&self) -> u32 {self.height}
+    pub fn height_i32(&self) -> i32 {self.height as i32}
+    pub fn height_f32(&self) -> f32 {self.height as f32}
 
     pub fn get_dimensions(&self) -> (u32, u32) {
         (self.width, self.height)
     }
 
-    pub fn get_grid_coord_from_global(&self, world_pos: Vec2) -> [f32; 2] {
+    //grid.from_global_to_grid
+    pub fn from_global(&self, world_pos: Vec2) -> [i32; 2] {
         [
-            (world_pos.x / self.tile_size as f32).floor(),
-            (world_pos.y / self.tile_size as f32).floor(),
+            (world_pos.x / self.tile_size as f32).floor() as i32,
+            (world_pos.y / self.tile_size as f32).floor() as i32,
         ]
     }
 
-    pub fn get_tile_center_from_global(&self, world_pos: Vec2) -> [f32; 2] {
-        self.get_grid_coord_from_global(world_pos)
-            .map(|c| c + self.tile_size as f32 / 2.)
+    pub fn get_tile_center_from_global(&self, world_pos: Vec2) -> [i32; 2] {
+        self.from_global(world_pos)
+            .map(|c| c + self.tile_size as i32 / 2)
     }
 
     pub fn get_global_from_local(&self, x: f32, y: f32) -> Vec3 {

@@ -14,11 +14,14 @@ impl Plugin for CameraPlugin {
 }
 
 pub fn setup_camera(mut commands: Commands) {
-    let mut camera = Camera2dBundle::default();
-    camera.projection.scaling_mode = ScalingMode::WindowSize(1.0);
+    let camera = Camera2d;
     commands.spawn((
         camera,
         MainCamera,
+        OrthographicProjection {
+            scaling_mode: ScalingMode::WindowSize(1.0),
+            ..OrthographicProjection::default_2d()
+        },
     ));
 }
 
@@ -28,14 +31,14 @@ pub struct MainCamera;
 #[derive(Resource)]
 pub struct DragState {
     is_dragging: bool,
-    pub initial_camera_pos: Vec2,
+    pub initial_window_position: Vec2,
 }
 
 impl Default for DragState {
     fn default() -> DragState {
         DragState {
             is_dragging: false,
-            initial_camera_pos: Vec2::new(0., 0.)
+            initial_window_position: Vec2::new(0., 0.)
         }
     }
 }
@@ -51,7 +54,7 @@ fn camera_drag_system(
 
     if mouse_button_input.just_pressed(MouseButton::Left) {
         if let Some(world_pos) = screen_to_world(camera, transform, window) {
-            state.initial_camera_pos = world_pos;
+            state.initial_window_position = world_pos;
         }
         state.is_dragging = true;
     } else if mouse_button_input.just_released(MouseButton::Left) {
@@ -60,7 +63,7 @@ fn camera_drag_system(
 
     if state.is_dragging {
         if let Some(world_pos) = screen_to_world(camera, transform, window) {
-                let delta = world_pos - state.initial_camera_pos;
+                let delta = world_pos - state.initial_window_position;
                 camera_transform.translation.x -= delta.x;
                 camera_transform.translation.y -= delta.y;
         }
