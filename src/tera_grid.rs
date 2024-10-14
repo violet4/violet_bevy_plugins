@@ -1,20 +1,17 @@
-#![allow(unused_mut, unused)]
 
-use std::ops::Div;
-
-use bevy::{prelude::*, render::mesh::PrimitiveTopology, sprite::*};
+use bevy::prelude::*;
 
 pub struct TeraGridPlugin;
 
 impl Plugin for TeraGridPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(PreStartup, setup)
-            .add_systems(Update, |grid: Res<Grid>, mut gizmos: Gizmos| {
+            .add_systems(Update, |grid: Res<Grid>, gizmos: Gizmos| {
                 grid.draw(gizmos)
             });
     }
 }
-fn setup(mut commands: Commands, mut asset_server: Res<AssetServer>) {
+fn setup(mut commands: Commands) {
     commands.insert_resource(Grid::new(100, 100, 64, false));
 }
 

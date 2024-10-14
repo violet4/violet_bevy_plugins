@@ -33,7 +33,7 @@ impl Plugin for DiagnosticsPlugin {
 fn setup_text(mut commands: Commands, asset_server: Res<AssetServer>) {
 
     commands.spawn((
-        Text::new("FPS: "),
+        Text::new(""),
         get_text_font(&asset_server),
         PositionText,
     ));
